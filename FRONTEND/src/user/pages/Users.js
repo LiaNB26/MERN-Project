@@ -7,7 +7,7 @@ const Users = () => {
       id: "u1",
       name: "Lia B",
       image:
-        "https://lh3.googleusercontent.com/proxy/mUT5iThmXFS9X9RggWMPfiKSnIvYViXMzO5QFtqY1V2aNl_dekB9Q_053bvKHYh-w7Y7FUcyrc66CYeLflemN_prGg",
+        "https://images.unsplash.com/photo-1494548162494-384bba4ab999?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
       places: 3,
     },
   ];
