@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -11,8 +11,10 @@ import {
 } from "../../shared/util/validators";
 
 import "./css/Auth.css";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Auth = (props) => {
+  const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -60,6 +62,7 @@ const Auth = (props) => {
 
     // send date to the backend
     console.log(formState.inputs);
+    auth.login();
   };
 
   return (
