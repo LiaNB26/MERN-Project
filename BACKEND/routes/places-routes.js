@@ -1,44 +1,30 @@
 const express = require("express");
+const { check } = require("express-validator");
+
+const placesController = require("../controllers/places-controllers");
 
 const router = express.Router();
 
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "One of the most famous sky scrapers in the world!",
-    imageUrl:
-      "https://www.history.com/.image/t_share/MTU3ODc3NjU2NzUxNTgwODk1/this-day-in-history-05011931---empire-state-building-dedicated.jpg",
-    address: "20 W 34th St, New York, NY 10001, United States",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878531,
-    },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building1",
-    description: "One of the most famous sky scrapers in the world!",
-    imageUrl:
-      "https://www.history.com/.image/t_share/MTU3ODc3NjU2NzUxNTgwODk1/this-day-in-history-05011931---empire-state-building-dedicated.jpg",
-    address: "20 W 34th St, New York, NY 10001, United States",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878531,
-    },
-    creator: "u2",
-  },
-];
+router.get("/:pid", placesController.getPlaceById);
 
-router.get("/:placeId", (req, res, next) => {
-  const placeId = req.params.placeId;
+router.get("/user/:uid", placesController.getPlacesByUserId);
 
-  const place = DUMMY_PLACES.find((p) => {
-    return p.id === placeId;
-  });
+router.post(
+  "/",
+  [
+    check("title").not().isEmpty(),
+    check("description").isLength({ min: 5 }),
+    check("address").not().isEmpty(),
+  ],
+  placesController.createPlace
+);
 
-  res.json({ place: place });
-});
+router.patch(
+  "/:pid",
+  [check("title").not().isEmpty(), check("description").isLength({ min: 5 })],
+  placesController.updatePlace
+);
+
+router.delete("/:pid", placesController.deletePlace);
 
 module.exports = router;
