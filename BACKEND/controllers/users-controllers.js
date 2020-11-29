@@ -24,7 +24,7 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
   let existingUser, createdUser;
 
   try {
@@ -41,7 +41,7 @@ const signup = async (req, res, next) => {
       email,
       password,
       image: "https://static.thenounproject.com/png/17241-200.png",
-      places,
+      places: [],
     });
 
     await createdUser.save();
