@@ -10,8 +10,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/api/places", placesRoutes);
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // '*' -> which domains are allowed to send reqs
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE"); // which https methods are allowed on the frontend
+  next();
+});
 
+app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 
 // will be reached only if a request did NOT get a response
@@ -33,7 +42,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://LiaNB:<password>@cluster0.efooa.mongodb.net/places-project?retryWrites=true&w=majority"
+    "mongodb+srv://LiaNB:YUNtPII1jGD6taxc@cluster0.efooa.mongodb.net/mern?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(5000);

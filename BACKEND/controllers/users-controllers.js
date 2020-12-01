@@ -6,13 +6,14 @@ const getUsers = async (req, res, next) => {
   let users;
 
   try {
-    users = await User.find({}, "email name");
+    users = await User.find({}, "-password");
   } catch (err) {
     return next(
       new HttpError("Fetching users failed, please try again later.", 500)
     );
   }
 
+  console.log(users);
   res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
@@ -73,7 +74,10 @@ const login = async (req, res, next) => {
     );
   }
 
-  res.json({ message: "Logged In!" });
+  res.json({
+    message: "Logged In!",
+    user: existingUser.toObject({ getters: true }),
+  });
 };
 
 exports.getUsers = getUsers;
