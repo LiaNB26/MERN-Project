@@ -14,6 +14,7 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import "./css/Auth.css";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 // const axios = require("axios");
 
@@ -43,6 +44,7 @@ const Auth = (props) => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -53,6 +55,10 @@ const Auth = (props) => {
           ...formState.inputs,
           name: {
             value: "",
+            isValid: false,
+          },
+          image: {
+            value: null,
             isValid: false,
           },
         },
@@ -108,7 +114,7 @@ const Auth = (props) => {
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
 
-        <h2>{isLoginMode ? "Login Required" : "Please Signup"} </h2>
+        <h2>{isLoginMode ? "Login Required" : "Please Sign-Up"} </h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
@@ -140,12 +146,26 @@ const Auth = (props) => {
             errorText="Please enter a valid password, at least 6 characters."
             onInput={inputHandler}
           />
+          {!isLoginMode && (
+            <ImageUpload
+              center
+              id="image"
+              errorText=""
+              onInput={inputHandler}
+            />
+          )}
+          <hr
+            style={{
+              margin: "20px 0 40px 0",
+              // backgroundColor: "#2fadd3",
+            }}
+          />
           <Button type="submit" disabled={!formState.isValid}>
-            {isLoginMode ? "LOGIN" : "SIGNUP"}
+            {isLoginMode ? "LOGIN" : "SIGN-UP"}
           </Button>
         </form>
         <Button inverse onClick={switchModeHandler}>
-          SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
+          SWITCH TO {isLoginMode ? "SIGN-UP" : "LOGIN"}
         </Button>
       </Card>
     </React.Fragment>
