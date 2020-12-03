@@ -13,7 +13,6 @@ const getUsers = async (req, res, next) => {
     );
   }
 
-  console.log(users);
   res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
@@ -26,8 +25,8 @@ const signup = async (req, res, next) => {
   }
 
   const { name, email, password } = req.body;
-  let existingUser, createdUser;
 
+  let existingUser, createdUser;
   try {
     existingUser = await User.findOne({ email: email });
 
@@ -41,7 +40,7 @@ const signup = async (req, res, next) => {
       name,
       email,
       password,
-      image: "https://static.thenounproject.com/png/17241-200.png",
+      image: req.file.path,
       places: [],
     });
 

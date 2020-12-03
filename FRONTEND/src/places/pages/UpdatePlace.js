@@ -65,7 +65,7 @@ const UpdatePlace = () => {
     };
 
     fetchPlace();
-  }, [sendRequest, placeId, setFormData]);
+  }, [sendRequest, placeId, setFormData, auth.userId, history]); // auth, history
 
   const placeUpdateSubmitHandler = async (event) => {
     event.preventDefault();

@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
@@ -78,8 +79,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
-    image:
-      "https://www.history.com/.image/t_share/MTU3ODc3NjU2NzUxNTgwODk1/this-day-in-history-05011931---empire-state-building-dedicated.jpg",
+    image: req.file.path,
     creator,
   });
 
@@ -140,7 +140,7 @@ const updatePlace = async (req, res, next) => {
 const deletePlace = async (req, res, next) => {
   const placeId = req.params.pid;
 
-  let place;
+  let place, imagePath;
   try {
     place = await Place.findById(placeId).populate("creator");
 
@@ -149,6 +149,8 @@ const deletePlace = async (req, res, next) => {
         new HttpError("Could not find place for the provided id.", 404)
       );
     }
+
+    imagePath = place.image;
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -161,6 +163,10 @@ const deletePlace = async (req, res, next) => {
       new HttpError("Something went wrong, could not delete place.", 500)
     );
   }
+
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
 
   res.status(200).json({ message: "Deleted place." });
 };
