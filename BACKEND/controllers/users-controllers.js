@@ -4,7 +4,6 @@ const jsonWebToken = require("jsonwebtoken");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
-const configData = require("../util/config");
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -71,7 +70,7 @@ const signup = async (req, res, next) => {
         userId: createdUser.id,
         email: createdUser.email,
       },
-      configData.PRIVATE_KEY,
+      process.env.JWT_PRIVATE_KEY,
       { expiresIn: "1h" }
     );
   } catch (err) {
@@ -129,7 +128,7 @@ const login = async (req, res, next) => {
         userId: existingUser.id,
         email: existingUser.email,
       },
-      configData.PRIVATE_KEY,
+      process.env.JWT_PRIVATE_KEY,
       { expiresIn: "1h" }
     );
   } catch (err) {

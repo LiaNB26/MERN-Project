@@ -43,10 +43,17 @@ const getPlacesByUserId = async (req, res, next) => {
     );
   }
 
-  if (!places || places.length === 0) {
+  //if (!places || places.length === 0)
+  if (!places) {
     return next(
       new HttpError("Could not find places for the provided user id.", 404)
     );
+  }
+
+  if (places.length === 0) {
+    return res.json({
+      places: [],
+    });
   }
 
   res.json({
@@ -126,7 +133,7 @@ const updatePlace = async (req, res, next) => {
   try {
     updatedPlace = await Place.findById(placeId);
 
-    if (updatePlace.creator.toString() !== req.userData.userId) {
+    if (updatedPlace.creator.toString() !== req.userData.userId) {
       return next(new HttpError("You are not allowed to edit this place", 401));
     }
 

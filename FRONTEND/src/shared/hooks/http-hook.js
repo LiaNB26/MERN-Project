@@ -10,12 +10,11 @@ export const useHttpClient = () => {
   // useCallback - makes sure function wont get re-created, wont inefficient reneder cycles
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
+      setIsLoading(true);
+      const httpAbortCtrll = new AbortController();
+      activeHttpRequests.current.push(httpAbortCtrll);
+
       try {
-        setIsLoading(true);
-
-        const httpAbortCtrll = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrll);
-
         const response = await fetch(url, {
           method,
           body,

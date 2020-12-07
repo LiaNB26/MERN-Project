@@ -8,7 +8,6 @@ const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 const HttpError = require("./models/http-error");
 
-const configData = require("./util/config");
 const app = express();
 
 app.use(bodyParser.json());
@@ -51,9 +50,11 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(configData.MONGO_DB_URL)
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.efooa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+  )
   .then(() => {
-    app.listen(5000);
+    app.listen(process.env.PORT || 5000);
   })
   .catch((err) => {
     console.log(err);

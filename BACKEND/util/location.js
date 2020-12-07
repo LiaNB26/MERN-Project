@@ -1,6 +1,6 @@
-const axios = require("axios");
-const HttpError = require("../models/http-error");
-const API_KEY = "";
+// const axios = require("axios");
+// const HttpError = require("../models/http-error");
+const API_KEY = process.env.GOOGLE_API_KEY;
 
 // returns same coords for every address - since not using google maps api
 function getCoordsForAddress(address) {
