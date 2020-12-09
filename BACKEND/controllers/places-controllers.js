@@ -6,6 +6,7 @@ const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../models/place");
 const User = require("../models/user");
+const cloudinary = require("../util/cloudinary");
 
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
@@ -66,6 +67,7 @@ const createPlace = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
+      // new HttpError("Failed.", 422)
     );
   }
 
@@ -81,13 +83,29 @@ const createPlace = async (req, res, next) => {
   //   return next(error);
   // }
 
+  // Upload image to cloudinary
+  let result;
+  try {
+    result = await cloudinary.uploader.upload(req.file.path);
+  } catch (err) {
+    console.log("Uploading image to cloudinary failed.");
+    console.log(err);
+  }
+
+  if (!result) {
+    return next(
+      new HttpError("Signing up failed, please try again later.", 500)
+    );
+  }
+
   const createdPlace = new Place({
     title,
     description,
     address,
     location: coordinates,
-    image: req.file.path,
     creator: req.userData.userId,
+    image: result.secure_url,
+    cloudinary_id: result.public_id,
   });
 
   let user;
@@ -109,6 +127,7 @@ const createPlace = async (req, res, next) => {
 
     await session.commitTransaction();
   } catch (err) {
+    console.log(err);
     return next(
       new HttpError("Creating a new place failed, please try again.", 500)
     );

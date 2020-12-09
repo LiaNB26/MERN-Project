@@ -11,6 +11,7 @@ const placeSchema = new Schema({
     lng: { type: Number, require: true },
   },
   creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
+  cloudinary_id: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Place", placeSchema);

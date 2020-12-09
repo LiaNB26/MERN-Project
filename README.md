@@ -6,4 +6,4 @@ Heroku - backend deployment
 Firebase - frontend deployment
 
 Link to web app:
-https://mern-project-b44c0.web.app/
+https://myplacesappmern.web.app/

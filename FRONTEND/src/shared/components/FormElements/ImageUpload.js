@@ -14,10 +14,13 @@ const ImageUpload = (props) => {
     if (!file) {
       return;
     }
+
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result);
+      // props.onInput(props.id, fileReader.result, isValid);
     };
+
     fileReader.readAsDataURL(file);
   }, [file]);
 
