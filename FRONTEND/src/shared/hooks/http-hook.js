@@ -4,10 +4,10 @@ export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  // useRef - will make sure array will not change acroos reneder cycles
+  // useRef - will make sure array will not change across reneder cycles
   const activeHttpRequests = useRef([]);
 
-  // useCallback - makes sure function wont get re-created, wont inefficient reneder cycles
+  // useCallback - makes sure function wont get re-created
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
       setIsLoading(true);
