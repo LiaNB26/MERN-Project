@@ -7,3 +7,6 @@ Firebase - frontend deployment
 
 Link to web app:
 https://myplacesappmern.web.app/
+
+username: user@test.com
+password: 123456789
